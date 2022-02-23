@@ -1,9 +1,10 @@
-import numpy as np
+"""import numpy as np
 import pybullet as p
 import pybullet_data
 import numpy
 import time
 import pyrosim.pyrosim as pyrosim
+import constants as c
 import random
 
 physicsClient = p.connect(p.GUI)
@@ -17,32 +18,21 @@ p.loadSDF("world.sdf")
 
 pyrosim.Prepare_To_Simulate(robotId)
 
-MAX_ITERATIONS = 1000
+backLegSensorValues = numpy.zeros(c.MAX_ITERATIONS)
+frontLegSensorValues = numpy.zeros(c.MAX_ITERATIONS)
 
-amplitude_BackLeg = np.pi / 2
-frequency_BackLeg = 10
-phaseOffset_BackLeg = 0
+targetAngles = numpy.linspace(-numpy.pi, numpy.pi, c.MAX_ITERATIONS)
+targetAnglesBack = numpy.zeros(c.MAX_ITERATIONS)
+targetAnglesFront = numpy.zeros(c.MAX_ITERATIONS)
 
-amplitude_FrontLeg = np.pi / 4
-frequency_FrontLeg = 20
-phaseOffset_FrontLeg = np.pi / 8
-
-backLegSensorValues = numpy.zeros(MAX_ITERATIONS)
-frontLegSensorValues = numpy.zeros(MAX_ITERATIONS)
-# targetAngles = np.sin(np.linspace(0, 2 * np.pi, MAX_ITERATIONS)) * amplitude
-
-targetAngles = numpy.linspace(-numpy.pi, numpy.pi, MAX_ITERATIONS)
-targetAnglesBack = numpy.zeros(MAX_ITERATIONS)
-targetAnglesFront = numpy.zeros(MAX_ITERATIONS)
-
-for i in range(MAX_ITERATIONS):
-    targetAnglesBack[i] = amplitude_BackLeg * np.sin(frequency_BackLeg * targetAngles[i] + phaseOffset_BackLeg)
-    targetAnglesFront[i] = amplitude_FrontLeg * np.sin(frequency_FrontLeg * targetAngles[i] + phaseOffset_FrontLeg)
+for i in range(c.MAX_ITERATIONS):
+    targetAnglesBack[i] = c.amplitude_BackLeg * np.sin(c.frequency_BackLeg * targetAngles[i] + c.phaseOffset_BackLeg)
+    targetAnglesFront[i] = c.amplitude_FrontLeg * np.sin(c.frequency_FrontLeg * targetAngles[i] + c.phaseOffset_FrontLeg)
 
 np.save("data/targetAnglesFront", targetAnglesFront)
 np.save("data/targetAnglesBack", targetAnglesBack)
 
-for x in range(MAX_ITERATIONS):
+for x in range(c.MAX_ITERATIONS):
     p.stepSimulation()
     backLegSensorValues[x] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
     frontLegSensorValues[x] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
@@ -58,7 +48,6 @@ for x in range(MAX_ITERATIONS):
         controlMode=p.POSITION_CONTROL,
         targetPosition=targetAnglesFront[x],
         maxForce=30)
-    # print(x)
     time.sleep(1 / 60)
 
 p.disconnect()
@@ -66,5 +55,8 @@ p.disconnect()
 # np.save("data/targetAngles", targetAngles)
 # np.save("data/backLegSensorValues", backLegSensorValues)
 # np.save("data/frontLegSensorValues", frontLegSensorValues)
+"""
+from simulation import SIMULATION
 
-# print(backLegSensorValues)
+simulation = SIMULATION()
+simulation.Run()
