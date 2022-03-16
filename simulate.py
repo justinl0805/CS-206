@@ -56,7 +56,11 @@ p.disconnect()
 # np.save("data/backLegSensorValues", backLegSensorValues)
 # np.save("data/frontLegSensorValues", frontLegSensorValues)
 """
+import sys
 from simulation import SIMULATION
 
-simulation = SIMULATION()
+directOrGUI = sys.argv[1]
+
+simulation = SIMULATION(directOrGUI)
 simulation.Run()
+simulation.Get_Fitness()

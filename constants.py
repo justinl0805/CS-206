@@ -14,3 +14,5 @@ phaseOffset_FrontLeg = np.pi / 8"""
 amplitude = np.pi / 4
 frequency = 20
 phaseOffset = 0
+
+numberOfGenerations = 10
