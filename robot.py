@@ -1,4 +1,5 @@
 import os
+from math import sin
 
 import pybullet as p
 import constants as c
@@ -28,7 +29,7 @@ class ROBOT:
 
     def Sense(self, t):
         for sensor in self.sensors:
-            self.sensors[sensor].Get_Value(t)
+            self.sensors[sensor].Get_Value(int(sin(c.x * t)))
 
     def Think(self):
         self.nn.Update()

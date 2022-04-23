@@ -31,7 +31,7 @@ class SOLUTION:
         width = 3.5
         height = 3
 
-        pyrosim.Send_Cube(name="Box", pos=[x, z, y], size=[length, width, height])
+        # pyrosim.Send_Cube(name="Box", pos=[x, z, y], size=[length, width, height])
         pyrosim.End()
 
     def Create_Body(self):
@@ -43,7 +43,7 @@ class SOLUTION:
 
         # Add to the initial joint around the torso to move the robot's limbs along the position
         # Torso
-        z_position_offset = 4
+        z_position_offset = 0
 
         length_increase = .2#.5
         width_increase = .5#.5
