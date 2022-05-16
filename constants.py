@@ -3,7 +3,7 @@ import numpy as np
 MAX_ITERATIONS = 2000
 maxForceConst = 60
 
-numberOfGenerations = 5
+numberOfGenerations = 10
 populationSize = 5
 
 numSensorNeurons = 9

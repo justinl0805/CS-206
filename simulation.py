@@ -1,9 +1,12 @@
 import time
 
+import numpy
+import numpy as np
 import pybullet as p
 import pybullet_data
 
 import constants as c
+import pyrosim.pyrosim
 from robot import ROBOT
 from world import WORLD
 
@@ -13,6 +16,7 @@ class SIMULATION:
         self.directOrGUI = directOrGUI
         self.solutionID = solutionID
 
+        self.backLegValues = np.zeros(c.MAX_ITERATIONS)
         if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:

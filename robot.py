@@ -30,6 +30,7 @@ class ROBOT:
     def Sense(self, t):
         for sensor in self.sensors:
             self.sensors[sensor].Get_Value(int(sin(c.x * t)))
+            # self.sensors[sensor].Get_Value(t)
 
     def Think(self):
         self.nn.Update()
@@ -42,6 +43,8 @@ class ROBOT:
             self.motors[jointName] = MOTOR(jointName)
 
     def Act(self, time, p):
+        # pyrosim.Get_Touch_Sensor_Value_For_Link("RightLeg_RightLowerLeg")
+
         for neuronName in self.nn.Get_Neuron_Names():
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)

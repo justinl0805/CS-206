@@ -1,6 +1,8 @@
 import random
 import time
 
+import numpy
+
 import constants as c
 import numpy as np
 import os
@@ -12,13 +14,13 @@ class SOLUTION:
     def __init__(self, myID):
         self.weights = (np.random.rand(c.numSensorNeurons, c.numMotorNeurons) * 2) - 1
         self.myID = myID
+        self.backLegSensorValues = numpy.zeros(c.MAX_ITERATIONS)
 
     def Evaluate(self, directOrGUI):
         pass
 
     def Mutate(self):
-        self.weights[random.randint(0, c.numMotorNeurons), random.randint(0, 1)] = (
-                                                                                               random.random() * c.numMotorNeurons) - 1
+        self.weights[random.randint(0, c.numMotorNeurons), random.randint(0, 1)] = (random.random() * c.numMotorNeurons) - 1
 
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")
@@ -147,8 +149,8 @@ class SOLUTION:
         os.system("python simulate.py " + directOrGUI + " " + str(self.myID))
 
     def Wait_For_Simulation_To_End(self):
+        # np.save("backLegSensorValues", self.backLegSensorValues)
         fitnessFile = "fitness" + str(self.myID) + ".txt"
-
         while not os.path.exists(fitnessFile):
             time.sleep(0.01)
 

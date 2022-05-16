@@ -1,23 +1,31 @@
+import numpy
+import numpy as np
+
 from solution import *
 import constants as c
 import copy
+
 
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
         os.system("del brain*.nndf")
         os.system("del fitness*.txt")
 
+        self.legValues = numpy.zeros(c.MAX_ITERATIONS)
+        self.data = numpy.zeros((c.populationSize, c.numberOfGenerations))
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(c.populationSize):
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
 
-
     def Evolve(self):
         self.Evaluate(self.parents)
         for currentGeneration in range(c.numberOfGenerations):
             self.Evolve_For_One_Generation()
+            for currentPopulation in range(c.populationSize):
+                fitness = self.parents.get(currentPopulation).fitness
+                self.data.itemset((currentPopulation, currentGeneration), fitness)
 
     def Evolve_For_One_Generation(self):
         self.Spawn()
@@ -33,9 +41,9 @@ class PARALLEL_HILL_CLIMBER:
             self.children[id].Set_ID(self.nextAvailableID)
             self.nextAvailableID += 1
 
-        #self.child = copy.deepcopy(self.parent)
-        #self.child.Set_ID(self.nextAvailableID)
-        #self.nextAvailableID += 1
+        # self.child = copy.deepcopy(self.parent)
+        # self.child.Set_ID(self.nextAvailableID)
+        # self.nextAvailableID += 1
 
     def Mutate(self):
         for key, value in self.children.items():
@@ -69,3 +77,11 @@ class PARALLEL_HILL_CLIMBER:
 
         for i in solutions.keys():
             self.parents[i].Wait_For_Simulation_To_End()
+
+    def Results(self):
+        #if c.x == 10:
+        np.savetxt('resultsA.out', self.data, delimiter=',', fmt='%.4f')
+        np.save('resultsA.npy', self.data)
+        #elif c.x == 1:
+            #np.savetxt('resultsB.out', self.data, delimiter=',', fmt='%.4f')
+            #np.save('resultsB.npy', self.data)
